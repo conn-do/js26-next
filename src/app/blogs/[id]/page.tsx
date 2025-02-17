@@ -6,7 +6,7 @@ export default async function ArticlePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const blog = await client.get<Blog>({
+  const blog = await client.getListDetail<Blog>({
     endpoint: 'blogs',
     contentId: id,
   })
@@ -15,6 +15,10 @@ export default async function ArticlePage({
     <div>
       <h1>{blog.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+      <div>
+        カテゴリー:
+        <a href={`/blogs/category/${blog.category.id}`}>{blog.category.name}</a>
+      </div>
     </div>
   )
 }

@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { client, Blog } from '@/lib/microcms'
 
 export default async function Home() {
-  const res = await client.get<{ contents: Blog[] }>({ endpoint: 'blogs' })
-
-  console.log(res)
+  const { contents: blogs } = await client.getList<Blog>({
+    endpoint: 'blogs',
+    queries: { orders: '-updatedAt' },
+  })
 
   // const blogs = [
   //   { id: 'aaa', title: '今日はさむい' },
@@ -17,7 +18,7 @@ export default async function Home() {
     <div>
       <h1>ブログ一覧</h1>
       <ul>
-        {res.contents.map((blog) => (
+        {blogs.map((blog) => (
           <li key={blog.id}>
             <Link href={`/blogs/${blog.id}`}>{blog.title}</Link>
           </li>
