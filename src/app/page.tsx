@@ -1,11 +1,18 @@
 import Link from 'next/link'
+import { client, Blog } from '@/lib/microcms'
 
-export default function Home() {
-  const blogs = [
-    { id: 'aaa', title: 'あいうえお' },
-    { id: 'bbb', title: 'かきくけこ' },
-    { id: 'ccc', title: 'さしすせそ' },
-  ]
+export default async function Home() {
+  const { contents: blogs } = await client.getList<Blog>({
+    endpoint: 'blogs',
+  })
+
+  console.log(blogs)
+
+  // const blogs = [
+  //   { id: 'aaa', title: 'あいうえお' },
+  //   { id: 'bbb', title: 'かきくけこ' },
+  //   { id: 'ccc', title: 'さしすせそ' },
+  // ]
 
   return (
     <div>
